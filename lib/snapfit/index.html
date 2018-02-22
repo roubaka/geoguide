@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Snapfit.js (javascript jigsaw puzzle functionality for images)</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-language" content="en">
+	<meta name="Author" lang="en" content="snapfit.netzgesta.de - Christian Effenberger">
+	<meta name="Publisher" lang="en" content="www.netzgesta.de">
+	<meta name="Copyright" lang="en" content="www.netzgesta.de - Christian Effenberger">
+	<meta name="Generator" lang="en" content="Christian Effenberger">
+	<meta name="Description" lang="en" content="snapfit.js allows you to add jigsaw puzzle functionality to images on your webpages through unobtrusive javascript">
+	<meta name="Keywords" lang="en" content="snapfit.js, javascript puzzle, jigsaw puzzle, Internet Explorer, Mozilla, Firefox, Opera, Safari">
+	<meta http-equiv="imagetoolbar" content="no">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css">
+a { color: blue; font-style:italic; text-decoration:none; }
+tt {color: green;}
+b {color: #993333;}
+body { background: url(images/backgrnd.jpg); color: black; font-family: Georgia; line-height: 1.5; margin: 0.5em 1em;}
+h2 { line-height: 1; }
+.demo { float: left; margin: 0px; padding: 12px; text-align: left;}
+.logo { float: left; margin: 0 1em 1em 0; position: relative; width: 360px; height: 160px; }
+#guru { float: none; padding: 4px; width: 99%; height: auto; text-align: center; background-color: black; }
+#guru div { float: none; border: solid 3px red; padding: 4px; font-family: monospace; font-size: 1.25em; width: auto; height: auto; color: red; text-align: center; text-decoration: blink; }
+.bookmarks { white-space: nowrap; width: 98%; margin: 0; padding-top: 10px; border-top: 1px dotted gray;}
+</style>
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<script type="text/javascript" src="snapfit.js"></script>
+</head>
+<body><noscript><div id="guru" title="By this you can recognize the Amiga fan!"><div><b>Guru Meditation</b> - With deactivated JavaScript: Images stay unmodified!</div></div></noscript>
+
+<table>
+<tr><td valign="top" style="padding-top: 0.5em">
+<div class="logo"><img src="images/logo.jpg" border="0" width="352" height="160" alt="snapfit.js"></div>
+</td><td style="padding: 0 0 0 15px; margin: 0; line-height: 1.5; font-style: italic;">
+<p><strong>Snapfit.js 1.5</strong> allows you to add jigsaw puzzle functionality to images on your webpages. It uses unobtrusive javascript to keep your code clean.</p>
+<p>It works in all the major browsers - Mozilla Firefox 1.5+, Opera 9+, Safari and IE6+. On older browsers, it'll degrade and your visitors won't notice a thing.</p>
+</td></tr>
+</table>
+
+<h2>Setting Up</h2>
+
+<p>Include snapfit.js into your webpages HEAD section.</p>
+<p><code>
+&lt;script type="text/javascript" src="<tt>snapfit.js</tt>"&gt;&lt;/script&gt;
+</code></p>
+
+<h2>Using It</h2>
+
+<p>To add snapfit just set the event onload="<tt>snapfit.add(this);</tt>" to an div surrounded image.</p>
+<p><code>&lt;div&gt;&lt;img onLoad="<tt>snapfit.add(this);</tt>" width="400" height="200" ...&gt;&lt;/div&gt;</code></p>
+<p>Mouse- and Keyboard-driven handling:
+	<dt><b>Move</b>:</dt>
+	<dd><code>Click & Drag</code></dd>
+	<dt><b>Rotate</b> clockwise in steps of 90°:</dt>
+	<dd><code>DoubleClick</code></dd>
+	<dt><b>Flip</b> along <b>X</b>-axis:</dt>
+	<dd><code>DoubleClick & [alt]Key or Right Mouse Button</code></dd>
+	<dt><b>Flip</b> along <b>Y</b>-axis:</dt>
+	<dd><code>DoubleClick & [shift]Key or Middle Mouse Button</code></dd>
+</p>
+<p>Keyboard-driven handling: <em>(if focused through mouse over image)</em>
+	<dt><b>Reset</b>:</dt>
+	<dd><code>Press [escape]</code></dd>
+	<dt><b>Mixup</b>:</dt>
+	<dd><code>Press [delete] or [backspace]</code></dd>
+	<dt><b>Solve</b> <em>(animated)</em>:</dt>
+	<dd><code>Press [return] or [enter]</code></dd>
+</p>
+
+<h2>Usage</h2>
+<dl>
+	<dt>Set defaults</dt>
+	<dd>
+		<code>snapfit.<b>defaultMixed</b>&nbsp; &nbsp; &nbsp; &nbsp; = <tt>false</tt>; //BOOLEAN mix pieces at startup</code><br />
+		<code>snapfit.<b>defaultSimple</b> &nbsp; &nbsp; &nbsp; = <tt>false</tt>; //BOOLEAN mix the positions only</code><br />
+		<code>snapfit.<b>defaultNokeys</b> &nbsp; &nbsp; &nbsp; = <tt>false</tt>; //BOOLEAN no keyboard control</code><br />
+		<code>snapfit.<b>defaultTofront</b>&nbsp; &nbsp; &nbsp; = <tt>false</tt>; //BOOLEAN on snap automatically set all pieces behind the current to front</code><br />
+		<code>snapfit.<b>defaultPolygon</b>&nbsp; &nbsp; &nbsp; = <tt>false</tt>; //BOOLEAN polygons instead of rectangles</code><br />
+		<code>snapfit.<b>defaultLevel</b> &nbsp;&nbsp; &nbsp; &nbsp; = <tt>3</tt>; //INT 0-6 (0==simple and 6==difficult)</code><br />
+		<code>snapfit.<b>defaultSpace</b> &nbsp;&nbsp; &nbsp; &nbsp; = <tt>0</tt>; //INT 0-50 (%) inner frame space</code><br />
+		<code>snapfit.<b>defaultSnap</b> &nbsp; &nbsp; &nbsp; &nbsp; = <tt>8</tt>; //INT 0-24 (px) snap radius</code><br />
+		<code>snapfit.<b>defaultCallback</b> &nbsp; &nbsp; = <tt>false</tt>; //JS function(){ ... } call on manual solving</code><br />
+		<code>snapfit.<b>defaultMatchcolor</b>&nbsp;&nbsp; = <tt>'#00d000'</tt>; //STR '#000000'-'#ffffff'</code><br />
+		<code>snapfit.<b>defaultFalsecolor</b>&nbsp;&nbsp; = <tt>'#ff0000'</tt>; //STR '#000000'-'#ffffff'</code><br />
+		<code>snapfit.<b>defaultAreacolor</b> &nbsp;&nbsp; = <tt>'#e0e0e0'</tt>; //STR '#000000'-'#ffffff'</code><br />
+		<code>snapfit.<b>defaultBgrndcolor</b>&nbsp;&nbsp; = <tt>'#000000'</tt>; //STR '#000000'-'#ffffff'</code><br />
+		<code>snapfit.<b>defaultAreaimage</b> &nbsp;&nbsp; = <tt>false</tt>; //BOOLEAN image as background</code><br />
+		<code>snapfit.<b>defaultAreaborder</b>&nbsp;&nbsp; = <tt>false</tt>; //BOOLEAN background border</code><br />
+		<code>snapfit.<b>defaultBorderwide</b> &nbsp; = <tt>2</tt>; //INT/FLOAT 1.0-6.0 (px) pieces border width</code><br />
+		<code>snapfit.<b>defaultAreaopacity</b>&nbsp; = <tt>0.33</tt>; //FLOAT 0.0-1.0 background area/image opacity</code><br />
+		<code>snapfit.<b>defaultBorderopacity</b>= <tt>0.5</tt>; //FLOAT 0.0-1.0 pieces border/backside opacity</code><br />
+		<code>snapfit.<b>defaultShadowopacity</b>= <tt>0.75</tt>; //FLOAT 0.0-1.0 active piece shadow opacity</code><br />
+		<code>snapfit.<b>defaultForcetouchui</b> = <tt>false</tt>; //BOOLEAN forces touch UI over the mouse UI if both available</code><br/>
+		<p></p>
+	</dd>
+	<dt>Add functionality to image</dt>
+	<dd>
+		<code>snapfit.add(<tt>image</tt>[, <tt>options</tt>]);</code><br />
+		<dl><dt><code><tt>image</tt>&nbsp; == &lt;img&gt; element</code></dt></dl>
+		<dl><dt><code><tt>options</tt> &nbsp; &nbsp; &nbsp; &nbsp; e.g. {<b>level</b>: <tt>2</tt>, <b>bwide</b>: <tt>3</tt>, ...}</code></dt>
+		<dd>
+			<code><b>level</b> &nbsp;&nbsp; &nbsp; == INT <tt>0</tt> - <tt>6</tt> Default: <tt>3</tt></code><br />
+			<code><b>space</b> &nbsp;&nbsp; &nbsp; == INT <tt>0</tt> - <tt>50</tt> Default: <tt>0</tt></code><br />
+			<code><b>snap</b> &nbsp; &nbsp; &nbsp; == INT <tt>1</tt> - <tt>24</tt> Default: <tt>8</tt></code><br />
+			<code><b>mixed</b> &nbsp;&nbsp; &nbsp; == BOOLEAN <tt>true</tt> or <tt>false</tt> Default: <tt>false</tt></code><br />
+			<code><b>simple</b> &nbsp; &nbsp; == BOOLEAN <tt>true</tt> or <tt>false</tt> Default: <tt>false</tt></code><br />
+			<code><b>nokeys</b> &nbsp; &nbsp; == BOOLEAN <tt>true</tt> or <tt>false</tt> Default: <tt>false</tt></code><br />
+			<code><b>tofront</b> &nbsp;&nbsp; == BOOLEAN <tt>true</tt> or <tt>false</tt> Default: <tt>false</tt></code><br />
+			<code><b>polygon</b>&nbsp; &nbsp; == BOOLEAN <tt>true</tt> or <tt>false</tt> Default: <tt>false</tt></code><br />
+			<code><b>mcolor</b> &nbsp; &nbsp; == STRING <tt>'#000000'</tt> to <tt>'#ffffff'</tt> Default: <tt>'#00d000'</tt></code><br />
+			<code><b>fcolor</b> &nbsp; &nbsp; == STRING <tt>'#000000'</tt> to <tt>'#ffffff'</tt> Default: <tt>'#ff0000'</tt></code><br />
+			<code><b>acolor</b> &nbsp; &nbsp; == STRING <tt>'#000000'</tt> to <tt>'#ffffff'</tt> Default: <tt>'#e0e0e0'</tt></code><br />
+			<code><b>bcolor</b> &nbsp; &nbsp; == STRING <tt>'#000000'</tt> to <tt>'#ffffff'</tt> Default: <tt>'#000000'</tt></code><br />
+			<code><b>aimage</b> &nbsp; &nbsp; == BOOLEAN <tt>true</tt> or <tt>false</tt> Default: <tt>false</tt></code><br />
+			<code><b>aborder</b>&nbsp; &nbsp; == BOOLEAN <tt>true</tt> or <tt>false</tt> Default: <tt>false</tt></code><br />
+			<code><b>aopacity</b>&nbsp;&nbsp; == FLOAT <tt>0.0</tt> - <tt>1.0</tt> Default: <tt>0.33</tt></code><br />
+			<code><b>bopacity</b>&nbsp;&nbsp; == FLOAT <tt>0.0</tt> - <tt>1.0</tt> Default: <tt>0.50</tt></code><br />
+			<code><b>sopacity</b>&nbsp;&nbsp; == FLOAT <tt>0.0</tt> - <tt>1.0</tt> Default: <tt>0.75</tt></code><br />
+			<code><b>bwide</b> &nbsp;&nbsp; &nbsp; == FLOAT <tt>1.0</tt> - <tt>6.0</tt> Default: <tt>2.0</tt></code><br />
+			<code><b>forcetui</b>&nbsp;&nbsp; == BOOLEAN <tt>true</tt> or <tt>false</tt> Default: <tt>false</tt></code><br/>
+			<code><b>callback</b>&nbsp;&nbsp; == JS <tt>false</tt> or <tt>function(){ ... }</tt></code><br/>
+		</dd></dl>
+		<p></p>
+	</dd>
+	<dt>Get some informations</dt>
+	<dd>
+		<code><tt>FLOAT</tt> = snapfit.version;</code><br />
+		<code><tt>STRING</tt> = snapfit.released;</code>
+		<p></p>
+	</dd>
+	<dt>Change puzzle level</dt>
+	<dd>
+		<code>snapfit.reset(<tt>image</tt> [, <b>value</b>]);</code><br />
+		<code><b>value</b> == <tt>level</tt> 0-6 (0==simple, 6==difficult, default==3)</code><br />
+		<em>(<small>0-6 corresponds to pieces of the pixel dimension 160/128/104/80/64/56/48</small>)</em>
+		<p></p>
+	</dd>
+	<dt>Mixup puzzle</dt>
+	<dd>
+		<code>snapfit.admix(<tt>image</tt> [, <b>value</b>]);</code><br />
+		<code><b>value</b> == <tt>simple</tt> true or false</code> <em>(<small>Mix positions only if true</small>)</em><br />
+		
+		<p></p>
+	</dd>
+	<dt>Solve puzzle</dt>
+	<dd>
+		<code>snapfit.solve(<tt>image</tt>);</code> <em>(<small>animated</small>)</em><br />
+		<p></p>
+	</dd>
+	<dt>Remove functionality from image</dt>
+	<dd>
+		<code>snapfit.remove(<tt>image</tt>);</code>
+		<p></p>
+	</dd>
+	<dt>Examples</dt>
+	<dd>
+		<code>&lt;img onLoad="snapfit.add(<tt>this</tt>);" ...&gt;</code><br />
+		<code>snapfit.add(<tt>document.getElementById('img')</tt>);</code><br />
+		<code>if(typeof $=='undefined') {function $(v) {return(document.getElementById(v));}}</code><br />
+		<code>snapfit.add(<tt>$('img')</tt>);</code><br />
+		<code>snapfit.add(<tt>$('img')</tt>, {<b>level</b>:<tt>6</tt>, <b>bwide</b>:<tt>1</tt>});</code><br />
+		<code>&lt;button type="button" onclick="snapfit.admix(<tt>$('img')</tt>);"&gt; Admix &lt;/button&gt;</code><br />
+		<code>&lt;button type="button" onclick="snapfit.solve(<tt>$('img')</tt>);"&gt; Solve &lt;/button&gt;</code><br />
+		<code>alert('snapfit: '+snapfit.version+' ('+snapfit.released+')');</code><br/>
+		<code>snapfit.reset(<tt>$('img')</tt>,<b>1</b>);</code><br/>
+		<code>snapfit.admix(<tt>$('img')</tt>,<b>true</b>);</code><br />
+		<code>snapfit.solve(<tt>$('img')</tt>);</code><br />
+		<code>snapfit.remove(<tt>$('img')</tt>);</code><br />
+		<p></p>
+	</dd>
+</dl>
+
+<h2>Demonstration</h2>
+
+<div class="demo"><div style="outline: 1px solid silver"><img id="girl" onload="snapfit.add(this,{callback: function() {alert('You solved the puzzle!');}, aborder:true, aimage:true, polygon:true, space:20});" src="images/girl.jpg" width="320" height="320" border="0" alt="girl" /></div>
+<strong>Level</strong> <select id="level" size="1" onchange="snapfit.reset(document.getElementById('girl'),parseInt(this.options[this.selectedIndex].value));">
+<option value="0">160px (extrem low)</option>
+<option value="1">128px (very low)</option>
+<option value="2">104px (low)</option>
+<option value="3"selected="selected">080px (medium)</option>
+<option value="4">064px (high)</option>
+<option value="5">056px (very high)</option>
+<option value="6">048px (extrem high)</option>
+</select>
+<button type="button" onclick="snapfit.admix(document.getElementById('girl'));">Admix</button>
+<button type="button" onclick="snapfit.solve(document.getElementById('girl'));">Solve</button><br>
+<small><b>move</b>: Click 'n drag!<br><b>rotate</b>: Doubleclick!<br><b>flip-y</b>: Doubleclick 'n press [shift] or Middle Mouse Button!<br><b>flip-x</b>: Doubleclick 'n press [alt] or Right Mouse Button!</small>
+</div>
+<div class="demo"><div><img id="test" onload="snapfit.add(this,{aopacity:0.0001, mixed:true});" src="images/test.png" width="320" height="320" border="0" alt="test" /></div>
+<strong>OnMouseOver keyboard support:</strong><small><br><b>Reset</b>: Press [escape]!<br><b>Solve</b>: Press [enter]!<br><b>Mixup</b>: Press [backspace]!<br><b>Admix</b>: Press [delete]!</small>
+</div>
+<p style="clear: left;"><small><em>Images used are copyrighted and are used for demonstration only.</em></small></p>
+
+<h2>Why use Javascript Snapfit?</h2>
+
+<ul>
+<li>Fast and easy to implement. Just add onload="<tt>snapfit.add(this);</tt>" to the image and your good to go.</li>
+<li>Don't need to spend time in an image editor creating a jigsaw puzzle.</li>
+<li>Works really well with forum avatars. Doesn't require additional server work.</li>
+<li>Supports single canvas user interface with mouse and keyboard control.</li>
+<li>Works and looks really well. Doesn't require additional resources.</li>
+<li>Free of charge use on non-commercial and private web sites.</li>
+</ul>
+
+<p>In older browsers, the script degrades and your visitors won't notice a thing.</p>
+
+<h2>Restrictions</h2>
+
+<p>iOS (iPod/iPad/iPhone) Resource Limits (Quote):<br/>
+"JPEG images can be up to 32 megapixels due to subsampling, which allows 
+JPEG images to decode to a size that has one sixteenth the number of pixels. 
+JPEG images larger than 2 megapixels are subsampled—that is, decoded to a 
+reduced size. JPEG subsampling allows the user to view images from the 
+latest digital cameras."</p>
+<p>Internet Explorer implementation in VML do not support all features
+and is unable to provide sub pixel precision. So don't expect to much.
+Image dimensions should always respect the original Aspect Ratio.</p> 
+<p>The speed depends on picture dimension and number of puzzle pieces.
+Opera 9.x and Firefox 1.5 are to slow to be practicable.</p>
+
+<h2>History</h2>
+
+Version 1.5<ul><li>Added support to set the current piece to the back or all pieces behind the current to front</li></ul>
+Version 1.4<ul><li>Added callback on resolving</li></ul>
+Version 1.3<ul><li>Added support to force the touch UI over the mouse UI</li></ul>
+Version 1.2<ul><li>Added support for ontouch/ongesture events</li></ul>
+Version 1.1<ul><li>Added support for Internet Explorer 9</li></ul>
+Version 1.01<ul><li>IE8 modifications</li></ul>
+Version 1.0<ul><li>Initial Release</li></ul>
+
+<h2>License</h2>
+
+<p>Snapfit.js and cvi_snapfit_lib.js are distributed under this <a href="LICENSE.txt">LICENSE</a>. License permits free of charge use on non-commercial and private web sites only under special conditions <em>(as described in the license)</em>. This license equals neither "<span style="text-decoration: line-through;">open source</span>" nor "<span style="text-decoration: line-through;">public domain</span>". There are also <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#099;&#118;&#105;&#064;&#110;&#101;&#116;&#122;&#103;&#101;&#115;&#116;&#097;&#046;&#100;&#101;">Commercial Software Licenses</a> available.</p>
+
+<h6>YOU AGREE TO ALL CONDITIONS OF THIS LICENCE AGREEMENT CONCERNING THE USE OF THE SOFTWARE BY ACCEPTING THIS LICENCE.
+<br>IF YOU DO NOT AGREE TO ALL CONDITIONS OF THIS AGREEMENT, YOU SHALL NOT INSTALL THE SOFTWARE, OR USE IT IN OTHER WAYS.</h6>
+
+<p><strong>Images used are copyrighted and are used for demonstration only.</strong></p>
+
+<p><a href="http://cvi.netzgesta.de/">cvi.netzgesta.de</a>&nbsp;&nbsp;also visit&nbsp;&nbsp;<a href="http://lab.netzgesta.de/">CVI-lab</a>, <a href="http://dev.netzgesta.de/">CVI-dev</a>, <a href="http://s5.netzgesta.de/">S5 Reloaded</a> and <a href="http://ajaxfilmdb.sourceforge.net/">AJAX-FilmDB</a></p>
+
+</body>
+</html>

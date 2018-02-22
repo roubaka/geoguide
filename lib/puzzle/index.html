@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="puzzle.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+	<script>
+	puzzle.make('canvas', 'mke.jpg', {
+		difficulty: 3,
+		hovertint: '#aaa',
+		onFinished: function(){
+			alert('Félicitations!');
+		}
+	});
+	</script>
+</body>
+
+</html>
