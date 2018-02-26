@@ -1,5 +1,5 @@
-<?php 
-header('Access-Control-Allow-Origin: *'); 
+<?php
+header('Access-Control-Allow-Origin: *');
 
 $uuid = $_REQUEST['uuid'];
 $t = $_REQUEST['t'];
@@ -8,7 +8,7 @@ $ip = $_SERVER['REMOTE_ADDR'];
 
 date_default_timezone_set("Europe/Zurich");
 
-$db = new PDO("mysql:host=localhost;dbname=geoguide", 'geoguide', 'Solifluxion2013');
+$db = new PDO("mysql:host=localhost;dbname=geoguide", 'geoguide', '');
 $stmt = $db->prepare("INSERT INTO geoguide_log (t, ip, dt, uuid, data) VALUES (:t, :ip, :dt, :uuid, :data)");
 $stmt->bindParam(':t', $t);
 $stmt->bindParam(':ip', $ip);
